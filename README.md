@@ -1,6 +1,6 @@
 # Python-AndrewNgML
 Python implementation of Andrew Ng's ML course projects
- - Ex1 (Linear Regression) = Incomplete
+ - Ex1 (Linear Regression) = In progress
  - Ex2 = Incomplete
  - Ex3 = Incomplete
  - Ex4 = Incomplete
