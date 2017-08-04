@@ -8,7 +8,7 @@
 #  Matlab implementation. This 
 #
 #     warmUpExercise.py - complete
-#     plotData.py - incomplete
+#     plotData.py - in progress
 #     gradientDescent.py - incomplete
 #     computeCost.py - incomplete
 #     gradientDescentMulti.py - incomplete
@@ -23,6 +23,7 @@
 ## ==================== Part 1: Basic Function ====================
 # Complete warmUpExercise.py
 import numpy as np
+import matplotlib.pyplot as plt
 
 print("running warmUpExercise...")
 print('5x5 Identity Matrix:')
@@ -30,4 +31,21 @@ print('5x5 Identity Matrix:')
 eye = np.identity(5)
 print(eye)
 
+input('\nPart 1 completed. Program paused. Press enter to continue: ')
+
+## ======================= Part 2: Plotting =======================
+print('Plotting Data ...')
+data = np.genfromtxt('ex1data1.txt', delimiter=',')
+
+x=data[:,0]
+y=data[:,1]
+
+plt.scatter(x, y, label = "scatter", color='r', s=1)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Raw Data')
+plt.show()
+input('\nPart 2 completed. Program paused. Press enter to continue: ')
+
+## =================== Part 3: Cost and Gradient descent ===================
 
