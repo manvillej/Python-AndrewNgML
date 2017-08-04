@@ -8,8 +8,8 @@
 #  Matlab implementation. This 
 #
 #     warmUpExercise.py - complete
-#     plotData.py - in progress
-#     gradientDescent.py - incomplete
+#     plotData.py - complete
+#     gradientDescent.py - in progress
 #     computeCost.py - incomplete
 #     gradientDescentMulti.py - incomplete
 #     computeCostMulti.py - incomplete
@@ -40,9 +40,9 @@ data = np.genfromtxt('ex1data1.txt', delimiter=',')
 x=data[:,0]
 y=data[:,1]
 
-plt.scatter(x, y, label = "scatter", color='r', s=1)
-plt.xlabel('x')
-plt.ylabel('y')
+plt.scatter(x, y, label = "scatter", color='r', s=10)
+plt.xlabel('Population of City in 10,000s')
+plt.ylabel('Profit in $10,000s')
 plt.title('Raw Data')
 plt.show()
 input('\nPart 2 completed. Program paused. Press enter to continue: ')
