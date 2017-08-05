@@ -9,7 +9,7 @@
 #
 #     warmUpExercise.py - complete
 #     plotData.py - complete
-#     gradientDescent.py - in progress
+#     gradientDescent.py - complete
 #     computeCost.py - complete
 #     gradientDescentMulti.py - incomplete
 #     computeCostMulti.py - incomplete
@@ -72,3 +72,27 @@ print('Expected cost value (approx) 54.24');
 input('\n Program paused. Press enter to continue: ')
 
 print('Running Gradient Descent...')
+#run gradient descent
+theta, cost = helper.gradientDescent(x, y, theta, alpha, iterations)
+
+#print theta to screen
+print('Theta found by gradient descent:');
+print(theta)
+print('\nExpected theta values (approx):');
+print('[-3.6303 1.1664]');
+
+# Plot the linear fit
+plt.scatter(x[1], y, label = "scatter", color='r', s=10)
+plt.plot(x[1],np.matmul(x.transpose(),theta), color='blue', linestyle='solid')
+plt.xlabel('Population of City in 10,000s')
+plt.ylabel('Profit in $10,000s')
+plt.title('Raw Data + Linear Fit')
+plt.show()
+
+# Predict values for population sizes of 35,000 and 70,000
+predict1 = np.matmul([1, 3.5],theta) 
+print('For population = 35,000, we predict a profit of ', predict1*10000);
+predict2 = np.matmul([1, 7],theta)
+print('For population = 70,000, we predict a profit of ', predict2*10000);
+
+input('\nPart 3 completed. Program paused. Press enter to continue: ')
