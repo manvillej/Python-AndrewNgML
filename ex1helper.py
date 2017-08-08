@@ -21,3 +21,5 @@ def gradientDescent(x, y, theta, alpha, iterations):
 
 	return [theta, costHistory]
 
+
+	
