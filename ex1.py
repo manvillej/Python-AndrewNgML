@@ -11,10 +11,10 @@
 #     plotData.py - complete
 #     gradientDescent.py - complete
 #     computeCost.py - complete
-#     gradientDescentMulti.py - incomplete
-#     computeCostMulti.py - incomplete
-#     featureNormalize.py - incomplete
-#     normalEqn.py - incomplete
+#     gradientDescentMulti.py - complete
+#     computeCostMulti.py - complete
+#     featureNormalize.py - complete
+#     normalEqn.py - complete
 #
 # x refers to the population size in 10,000s
 # y refers to the profit in $10,000s

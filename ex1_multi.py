@@ -17,7 +17,7 @@
 #     gradientDescentMulti.py - complete
 #     computeCostMulti.py - complete
 #     featureNormalize.py - complete
-#     normalEqn.py - incomplete
+#     normalEqn.py - complete
 #
 #  For this part of the exercise, you will need to change some
 #  parts of the code below for various experiments (e.g., changing
@@ -114,4 +114,46 @@ price = np.matmul(r,theta)
 
 # ============================================================
 print('\nPredicted price of a 1650 sq-ft, 3 br house (using gradient descent): ${0:.2f}'.format(price))
+
 input('\nPart 2 complete. Program paused. Press enter to continue: ')
+
+## ================ Part 3: Normal Equations ================
+
+print('Solving with normal equations...');
+
+# ====================== YOUR CODE HERE ======================
+# Instructions: The following code computes the closed form 
+#               solution for linear regression using the normal
+#               equations. You should complete the code in 
+#               normalEqn.m
+#
+#               After doing so, you should complete this code 
+#               to predict the price of a 1650 sq-ft, 3 br house.
+#
+
+## Load Data
+data = np.genfromtxt('ex1data2.txt', delimiter=',')
+x = np.array(data[:,:2])
+y = np.array(data[:,2])
+m = y.shape[0]
+
+# Add intercept term to X
+r = x
+x = np.ones((x.shape[0], x.shape[1]+1))
+x[:,1:] = r
+
+# Calculate the parameters from the normal equation
+theta = helper.normalEqn(x, y)
+
+# Display normal equation's result
+print('Theta computed from the normal equations: ', theta)
+
+
+# Estimate the price of a 1650 sq-ft, 3 br house
+# ====================== YOUR CODE HERE ======================
+
+r = np.array([1, 1650, 3])
+price = np.matmul(r,theta)
+
+# ============================================================
+print('Predicted price of a 1650 sq-ft, 3 br house (using normal equations): ${0:.2f}'.format(price))

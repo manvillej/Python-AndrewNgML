@@ -45,5 +45,10 @@ def gradientDescentMulti(x, y, theta, alpha, num_iters):
 		error = np.matmul(x,theta)-y
 		theta = theta - alpha*np.dot(error,x)/m
 		j_history[i] = computeCostMulti(x,y,theta)
-
 	return [theta, j_history]
+
+from numpy.linalg import inv
+def normalEqn(X,Y):
+	X= np.matmul(inv(np.matmul(X.transpose(),X)),X.transpose())
+	theta = np.matmul(X,Y)
+	return theta
