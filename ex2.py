@@ -26,12 +26,50 @@ import ex2helper as helper
 
 data = np.genfromtxt('./data/ex2data1.txt', delimiter=',')
 y = np.array(data[:,2:])
-x = np.array(data[:,0:2]).transpose()
+x = np.array(data[:,0:2])
 
 
 ## ==================== Part 1: Plotting ====================
 #  We start the exercise by first plotting the data to understand the 
 #  the problem we are working with.
 
-print('Plotting data with \'+\' indicating (y = 1) examples and \'o\' indicating (y = 0) examples.')
+print('\nPlotting data with \'o\' indicating (y = 1) examples and \'x\' indicating (y = 0) examples.')
+
 helper.plotData(x,y)
+
+input('\nPart 1 completed. Program paused. Press enter to continue: ')
+## ============ Part 2: Compute Cost and Gradient ============
+#  In this part of the exercise, you will implement the cost and gradient
+#  for logistic regression. You neeed to complete the code in 
+#  costFunction.m
+#
+#  Setup the data matrix appropriately, and add ones for the intercept term
+[m,n] = x.shape
+
+r = x
+x = np.ones((m, n+1))
+x[:,1:] = r
+
+theta = np.zeros(n+1)
+
+[cost, grad] = helper.costFunction(theta,x,y)
+
+
+print('Cost at initial theta (zeros): {0:.3f}'.format(cost))
+print('Expected cost (approx): 0.693')
+print('Gradient at initial theta (zeros): ')
+print(grad)
+print('Expected gradients (approx):\n -0.1000\n -12.0092\n -11.2628')
+
+
+# Compute and display cost and gradient with non-zero theta
+test_theta = np.array([-24, 0.2, 0.2])
+[cost, grad] = helper.costFunction(test_theta, x, y)
+
+print('Cost at initial theta (zeros): {0:.3f}'.format(cost))
+print('Expected cost (approx): 0.218')
+print('Gradient at initial theta (zeros): ')
+print(grad)
+print('Expected gradients (approx):\n 0.043\n 2.566\n 2.647')
+
+input('\nPart 2 completed. Program paused. Press enter to continue: ')
