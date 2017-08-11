@@ -40,7 +40,7 @@ input('\nPart 1 completed. Program paused. Press enter to continue: ')
 
 ## ======================= Part 2: Plotting =======================
 print('Plotting Data ...')
-data = np.genfromtxt('ex1data1.txt', delimiter=',')
+data = np.genfromtxt('./data/ex1data1.txt', delimiter=',')
 
 x=np.array(data[:,0])
 x=np.expand_dims(x,axis=0)
