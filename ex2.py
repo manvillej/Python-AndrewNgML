@@ -67,7 +67,7 @@ print('Expected gradients (approx):\n -0.1000\n -12.0092\n -11.2628')
 # Compute and display cost and gradient with non-zero theta
 test_theta = np.array([-24, 0.2, 0.2])
 cost = helper.costFunction(test_theta, x, y)
-grad = helper.gradient(theta, x, y)
+grad = helper.gradient(test_theta, x, y)
 
 print('Cost at initial theta (zeros): {0:.3f}'.format(cost))
 print('Expected cost (approx): 0.218')
