@@ -25,6 +25,8 @@ def costFunction(theta, x, y):
 def gradient(theta, x, y):
 	m = x.shape[0]
 	z = sigmoid(np.matmul(x,theta))
+
+def plotDecisionBoundary(theta,x,y):
 	positiveExamples = plt.scatter(np.extract(Y==1,X[:,1]), np.extract(Y==1,X[:,2]), label = "y=1", marker='o', color='b', s=10)
 	negativeExamples = plt.scatter(np.extract(Y==0,X[:,1]), np.extract(Y==0,X[:,2]), label = "y=0", marker='x', color='r', s=10)	
 	#Only need 2 points to define a line, so choose two endpoints
@@ -51,4 +53,11 @@ def mapFeatures(X):
 	X = np.insert(X,0,1,axis=1)
 
 	return X
+
+def costFunctionReg(theta, x, y):
+	m = x.shape[0]
+	z = sigmoid(np.matmul(x,theta))
+	r = 
+	J = -1/m*(np.sum(np.log(z)*y+np.log(1-z)*(1-y)))
+	return J
 	

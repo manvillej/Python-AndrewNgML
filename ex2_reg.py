@@ -46,8 +46,6 @@ x = helper.mapFeatures(x)
 
 # Initialize fitting parameters
 initial_theta = np.zeros([x.shape[1], 1])
-print(initial_theta.shape)
-
 
 # Set regularization parameter lambda to 1
 lambdaVal = 1
