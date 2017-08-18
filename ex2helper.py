@@ -13,7 +13,7 @@ def plotData(X, Y, stringX, stringY):
 	
 
 def sigmoid(z):
-	return np.array([1/(1+np.exp(-z))]).transpose()
+	return 1/(1+np.exp(-z))
 
 
 def costFunction(theta, x, y):
@@ -60,8 +60,28 @@ def mapFeatures(X):
 	for i in range(1, degrees):
 		for j in range(0,i):
 			r = np.multiply(np.power(X[:,0],i-j),np.power(X[:,1],j))
-			x = np.append(X,r[:,np.newaxis],axis=1)
+			X = np.append(X,r[:,np.newaxis],axis=1)
 
-	x = np.insert(X,0,1,axis=1)
+	X = np.insert(X,0,1,axis=1)
 	return X
 	
+def costFunctionReg(theta, x, y, lambdaVal):
+
+	m = x.shape[0]
+
+	z = sigmoid(np.matmul(x,theta))
+
+	pos = np.multiply(np.log(z),y)
+	neg = np.multiply(np.log(1-z),(1-y))
+
+	J = -1/m*(np.sum(np.add(pos,neg)))
+
+	reg = np.ones(theta.shape)
+	reg[0] = 0
+	reg = (lambdaVal/(2*m))*np.sum(np.multiply(reg,np.power(theta,2)))
+
+	return J + reg
+
+
+def gradientReg(theta, x, y, lambdaVal):
+	return 1

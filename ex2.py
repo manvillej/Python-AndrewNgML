@@ -25,7 +25,7 @@ import numpy as np
 import ex2helper as helper
 import matplotlib.pyplot as plt
 data = np.genfromtxt('./data/ex2data1.txt', delimiter=',')
-y = np.array(data[:,2:])
+y = np.array(data[:,2])
 x = np.array(data[:,0:2])
 
 

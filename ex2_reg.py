@@ -45,7 +45,23 @@ x = np.array(data[:,0:2])
 x = helper.mapFeatures(x)
 
 # Initialize fitting parameters
-initial_theta = np.zeros([x.shape[1], 1])
+initial_theta = np.zeros(x.shape[1])
 
 # Set regularization parameter lambda to 1
-lambdaVal = 1
+lambdaVal = 0
+
+# Compute and display initial cost and gradient for regularized logistic
+# regression
+cost = helper.costFunctionReg(initial_theta, x, y, lambdaVal)
+cost2 = helper.costFunction(initial_theta, x, y)
+print(cost)
+print(cost2)
+grad = helper.gradientReg(initial_theta, x, y, lambdaVal)
+
+#print('Cost at initial theta (zeros): {0:.2f}'.format(cost))
+#print('Expected cost (approx): 0.693\n')
+#print('Gradient at initial theta (zeros) - first five values only:')
+#print(grad[0:5])
+#print('\nExpected gradients (approx) - first five values only:')
+#print(' 0.0085 0.0188 0.0001 0.0503 0.0115')
+
