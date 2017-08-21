@@ -36,7 +36,7 @@ import matplotlib.pyplot as plt
 
 
 print('Loading data...')
-data = np.genfromtxt('ex1data2.txt', delimiter=',')
+data = np.genfromtxt('./data/ex1data2.txt', delimiter=',')
 x = np.array(data[:,:2])
 y = np.array(data[:,2])
 m = y.shape[0]
@@ -132,7 +132,7 @@ print('Solving with normal equations...');
 #
 
 ## Load Data
-data = np.genfromtxt('ex1data2.txt', delimiter=',')
+data = np.genfromtxt('./data/ex1data2.txt', delimiter=',')
 x = np.array(data[:,:2])
 y = np.array(data[:,2])
 m = y.shape[0]
