@@ -32,6 +32,11 @@ x = np.array(data[:,0:2])
 ## ==================== Part 1: Plotting ====================
 #  We start the exercise by first plotting the data to understand the 
 #  the problem we are working with.
+[m,n] = x.shape
+
+r = x
+x = np.ones((m, n+1))
+x[:,1:] = r
 
 print('\nPlotting data with \'o\' indicating (y = 1) examples and \'x\' indicating (y = 0) examples.')
 
@@ -45,11 +50,7 @@ input('\nPart 1 completed. Program paused. Press enter to continue: ')
 #  costFunction.m
 #
 #  Setup the data matrix appropriately, and add ones for the intercept term
-[m,n] = x.shape
 
-r = x
-x = np.ones((m, n+1))
-x[:,1:] = r
 
 theta = np.zeros(n+1)
 
