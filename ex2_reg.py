@@ -8,10 +8,10 @@
 #
 #  You will need to complete the following functions in this exericse:
 #
-#     sigmoid.m
-#     costFunction.m
-#     predict.m
-#     costFunctionReg.m
+#     sigmoid.m - complete
+#     costFunction.m - complete
+#     predict.m - complete
+#     costFunctionReg.m - complete
 #
 #  For this exercise, you will not need to change any code in this file,
 #  or any other files other than those mentioned above.
