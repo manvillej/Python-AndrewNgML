@@ -40,8 +40,10 @@ x[:,1:] = r
 
 print('\nPlotting data with \'o\' indicating (y = 1) examples and \'x\' indicating (y = 0) examples.')
 
-helper.plotData(x,y,'Exam Score 1', 'Exam Score 2')
-
+helper.plotData(x,y)
+plt.xlabel('Exam Score 1')
+plt.ylabel('Exam Score 2')
+plt.show()
 
 input('\nPart 1 completed. Program paused. Press enter to continue: ')
 ## ============ Part 2: Compute Cost and Gradient ============
@@ -95,7 +97,10 @@ print('theta:')
 print(theta)
 print('Expected theta (approx):')
 print('[ -25.161  0.206  0.201]')
-helper.plotDecisionBoundary(theta,x,y,'Exam Score 1', 'Exam Score 2')
+helper.plotDecisionBoundary(theta,x,y)
+plt.xlabel('Exam Score 1')
+plt.ylabel('Exam Score 2')
+plt.show()
 
 input('\nPart 3 completed. Program paused. Press enter to continue: ')
 

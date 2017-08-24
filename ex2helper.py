@@ -73,8 +73,11 @@ def mapFeatures(X):
 	return mapped_X
 	
 def costFunctionReg(theta, x, y, lambdaVal):
-
+	if(y.ndim>1):
+		y = np.squeeze(y)
 	m = x.shape[0]
+	if(y.shape[0]!=m):
+		raise ValueError('Y & X are not compatible: X.shape = {} &  y.shape = {}'.format(X.shape, y.shape))
 
 	z = sigmoid(np.matmul(x,theta))
 
@@ -91,8 +94,12 @@ def costFunctionReg(theta, x, y, lambdaVal):
 
 
 def gradientReg(theta, x, y, lambdaVal):
+	if(y.ndim>1):
+		y = np.squeeze(y)
 	m = x.shape[0]
-
+	if(y.shape[0]!=m):
+		raise ValueError('Y & X are not compatible: X.shape = {} &  y.shape = {}'.format(X.shape, y.shape))
+	
 	z = sigmoid(np.matmul(x,theta))
 
 	grad = np.matmul(x.transpose(),np.subtract(z,y))/m
