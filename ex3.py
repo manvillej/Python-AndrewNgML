@@ -45,7 +45,9 @@ m = X.shape[0]
 # Randomly select 100 data points to display
 perm = np.random.permutation(m)
 sel = X[perm[0:100],:]
-print(sel)
+
+#display data as image
+helper.displayData(sel)
  
 input('\nPart 1 completed. Program paused. Press enter to continue: ')
 

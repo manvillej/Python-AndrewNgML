@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.optimize as op
 import ex2helper as helper
+import math
+import matplotlib.image as mpimg
 
 def OneVsAll(X, y, numlabels, lambdaVal):
 	m = X.shape[0] #number of examples
@@ -28,7 +30,7 @@ def OneVsAll(X, y, numlabels, lambdaVal):
 
 		#calculating cost and accuracy to validate that the function is working correctly
 		print('Train Accuracy: {:.1f}%'.format(np.mean(predictions) * 100))
-		print('cost for {} = {:.3f}, max = {:.3f}'.format(i,results.fun,np.max(p)))
+		print('cost for {} = {:.3f}, max = {:.3f}'.format(i%10,results.fun,np.max(p)))
 
 		theta = np.append(theta, thetaTemp)#appending discovered theta to theta
 
@@ -44,3 +46,63 @@ def predictOneVsAll(allTheta, X):
 	
 	#return vector of position of maximum for each row +1 to adjust for arrays initializing at 0
 	return(np.argmax(pred,axis=1)+1)
+
+def displayData(X, **keywordParameters):
+	#set example width automatically if not given
+	if('exampleWidth' in keywordParameters):
+		exampleWidth = keywordParameters['exampleWidth']
+	else:
+		exampleWidth = round(math.sqrt(X.shape[1]))
+
+	#calculate size of rows and columns
+	[m, n] = X.shape
+	exampleHeight = n//exampleWidth #eliminating float with // divide
+
+	#calculate number of items to display
+	displayRows = math.floor(math.sqrt(m))
+	displayColumns = math.ceil(m/displayRows)
+
+	#set padding between images
+	padding = 1
+
+	#set up blank display
+	displayHeight = padding + displayRows * (exampleHeight + padding)
+	displayWidth = padding + displayColumns * (exampleWidth + padding)
+
+	displayArray = - np.ones([displayHeight, displayWidth])
+
+	#Copy each example into a path on the display array
+	currentExample = 0
+	for j in range(0,displayRows):
+		for i in range(0, displayColumns):
+			if(currentExample > m):
+				break
+
+			#Copy the Patch
+
+			#1. get the max value of the patch
+			maxValue = np.amax(np.absolute(X[currentExample,:]))
+			
+			#2. get current example in the correct shape
+			example = np.reshape(X[currentExample,:], [exampleHeight, exampleWidth])/maxValue
+			example = example.transpose()
+
+			#3. calculate current position height and width
+			currentPositionHeight = padding + j * (exampleHeight + padding)
+			currentPositionWidth = padding + i * (exampleWidth + padding)
+			
+			#4. assign current example to correct position in the display array
+			displayArray[currentPositionHeight:currentPositionHeight + exampleHeight, currentPositionWidth:currentPositionWidth + exampleWidth] = example
+
+			#5. iterate current example
+			currentExample = currentExample + 1
+
+		if(currentExample>m):
+			break
+
+	#show image
+	imgplot = plt.imshow(displayArray, cmap='gray')
+	plt.axis('off')
+	plt.show()
+
+
