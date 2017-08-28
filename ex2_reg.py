@@ -98,6 +98,9 @@ theta = np.zeros(x.shape[1])
 lambdaVal = 1
 
 results = helper.optimizeReg(theta,x,y,lambdaVal)
+print(x.shape)
+print(theta.shape)
+print(y.shape)
 theta = results.x
 cost = results.fun
 
