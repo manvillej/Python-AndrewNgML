@@ -7,10 +7,10 @@
 #  linear exercise. You will need to complete the following functions
 #  in this exericse:
 #
-#     lrCostFunction.m (logistic regression cost function) - complete
-#     oneVsAll.m - complete
-#     predictOneVsAll.m - complete
-#     predict.m
+#     lrCostFunction (logistic regression cost function) - complete
+#     oneVsAll - complete
+#     predictOneVsAll - complete
+#     predict - complated
 #
 #  For this exercise, you will not need to change any code in this file,
 #  or any other files other than those mentioned above.

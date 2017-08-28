@@ -105,4 +105,16 @@ def displayData(X, **keywordParameters):
 	plt.axis('off')
 	plt.show()
 
+def predict(theta1, theta2, X):
+	m = X.shape[0]
+	num_labels = theta2.shape[0]
+
+	X = np.insert(X,0,np.ones(X.shape[0]),axis=1) # adding bias unit
+	a1 = np.matmul(X,theta1.transpose())
+	a1 = helper.sigmoid(a1)
+	a1 = np.insert(a1,0,np.ones(a1.shape[0]),axis=1) # adding bias unit
+	a2 = np.matmul(a1,theta2.transpose())
+	a2 = helper.sigmoid(a2)
+	
+	return(np.argmax(a2,axis=1)+1)
 

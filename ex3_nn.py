@@ -7,10 +7,10 @@
 #  linear exercise. You will need to complete the following functions 
 #  in this exericse:
 #
-#     lrCostFunction.m (logistic regression cost function)
-#     oneVsAll.m
-#     predictOneVsAll.m
-#     predict.m
+#     lrCostFunction (logistic regression cost function) - completed
+#     oneVsAll - completed
+#     predictOneVsAll - completed
+#     predict - completed
 #
 #  For this exercise, you will not need to change any code in this file,
 #  or any other files other than those mention  d above.
@@ -59,7 +59,7 @@ input('\nPart 1 completed. Program paused. Press enter to continue: ')
 # In this part of the exercise, we load some pre-initialized 
 # neural network parameters.
 
-print('Loading Saved Neural Network Parameters ...')
+print('\nLoading Saved Neural Network Parameters ...')
 
 # Load the weights into variables Theta1 and Theta2
 mat = io.loadmat('./data/ex3weights.mat')
@@ -72,3 +72,28 @@ theta2 = mat['Theta2']
 #  neural network to predict the labels of the training set. This lets
 #  you compute the training set accuracy.
 
+p = helper.predict(theta1, theta2, X)
+predictions = np.zeros(p.shape)
+predictions[np.where(p==y)] = 1
+
+print('Train Set Accuracy: {:.1f}%'.format(np.mean(predictions) * 100))
+
+input('\nPart 3 completed. Program paused. Press enter to continue: ')
+
+# Randomly select 100 data points to display
+perm = np.random.permutation(m)
+for i in range(0,m):
+	print('\n    Displaying Example Image...\n')
+	example = X[perm[i],:]
+	example = example[np.newaxis,:]
+
+	helper.displayData(example)
+	p = helper.predict(theta1, theta2, example)
+	print('    Neural Network Prediction: {}'.format(p[0]%10))
+	print('    Correct Answer: {}\n'.format(y[perm[i]]%10))
+
+
+
+	answer = input('Paused - press enter to continue, q to exit:')
+	if(answer=='q'):
+		break
