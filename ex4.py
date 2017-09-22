@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 import scipy.io as io
 import ex3helper as helper3
 import ex4helper as helper
+import ex4Checker as checker
 
 ## Setup the parameters you will use for this exercise
 inputLayerSize  = 400;  # 20x20 Input Images of Digits
@@ -40,7 +41,6 @@ X = mat['X']
 y = np.squeeze(mat['y'])
 
 m = X.shape[0]
-
 # Randomly select 100 data points to display
 perm = np.random.permutation(m)
 sel = X[perm[0:100],:]
@@ -61,7 +61,7 @@ mat = io.loadmat('./data/ex4weights.mat')
 theta1 = mat['Theta1']
 theta2 = mat['Theta2']
 
-nnParams = np.array([theta1.flatten(), theta2.flatten()])
+nnParams = np.append(theta1.flatten(), theta2.flatten())
 
 
 ## ================ Part 3: Compute Cost (Feedforward) ================
@@ -81,7 +81,7 @@ print('Feedforward Using Neural Network ...')
 # Weight regularization parameter (we set this to 0 here).
 lambdaVal = 0
 
-J = helper.nnCostFunction(nnParams, X, y, lambdaVal)
+J = helper.nnCostFunction(nnParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal)
 
 print('Cost at parameters (loaded from ex4weights): {:.6f}'.format(J))
 print('this value should be approx: 0.287629')
@@ -98,7 +98,7 @@ print('\nChecking Cost Function (w/ Regularization) ... ')
 # Weight regularization parameter (we set this to 1 here).
 lambdaVal = 1
 
-J = helper.nnCostFunction(nnParams, X, y, lambdaVal)
+J = helper.nnCostFunction(nnParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal)
 
 print('Cost at parameters (loaded from ex4weights): {:.6f}'.format(J))
 print('this value should be approx: 0.383770')
@@ -129,10 +129,10 @@ input('\nPart 5 completed. Program paused. Press enter to continue: ')
 print('\nInitializing Neural Network Parameters ...')
 
 initialTheta1 = np.random.rand(inputLayerSize + 1, hiddenLayerSize)
-initialTheta2 = np.random.rand(hiddenLayerSize + 1, num_labels)
+initialTheta2 = np.random.rand(hiddenLayerSize + 1, numLabels)
 
 # Unroll parameters
-initialNNParams = np.array([initialTheta1.flatten(), initialTheta2.flatten()])
+initialNNParams = np.append(initialTheta1.flatten(), initialTheta2.flatten())
 
 ## =============== Part 7: Implement Backpropagation ===============
 #  Once your cost matches up with ours, you should proceed to implement the
@@ -143,6 +143,53 @@ initialNNParams = np.array([initialTheta1.flatten(), initialTheta2.flatten()])
 print('\nChecking Backpropagation... ')
 
 #Check gradients by running checkNNGradients
-#helper.checkNNGradients()
+checker.checkNNGradients(0)
 
-#input('\nPart 6 & 7 completed. Program paused. Press enter to continue: ')
+input('\nPart 6 & 7 completed. Program paused. Press enter to continue: ')
+
+## =============== Part 8: Implement Regularization ===============
+#  Once your backpropagation implementation is correct, you should now
+#  continue to implement the regularization with the cost and gradient.
+#
+
+print('\nChecking Backpropagation (w/ Regularization) ... ')
+
+#  After you have completed the assignment, change the MaxIter to a larger
+#  value to see how more training helps.
+
+
+#  You should also try different values of lambda
+lambdaVal = 3
+checker.checkNNGradients(lambdaVal)
+
+debug_J  = helper.nnCostFunction(nnParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal)
+
+print('Cost at parameters (loaded from ex4weights): {:.6f}'.format(debug_J))
+print('this value should be approx: 0.576051')
+
+input('\nPart 8 completed. Program paused. Press enter to continue: ')
+
+
+## =================== Part 9: Training NN ===================
+#  You have now implemented all the code necessary to train a neural 
+#  network. To train your neural network, we will now use "fmincg", which
+#  is a function which works similarly to "fminunc". Recall that these
+#  advanced optimizers are able to train our cost functions efficiently as
+#  long as we provide them with the gradient computations.
+#
+
+print('\nTraining Neural Network... ')
+
+MaxIter = 50
+lambdaVal = 1
+	
+finalParams = helper.optimizeNN(initialNNParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal, MaxIter)
+
+print(finalParams)
+
+input('\nPart 9 completed. Program paused. Press enter to continue: ')
+
+## ================= Part 10: Visualize Weights =================
+#  You can now "visualize" what the neural network is learning by 
+#  displaying the hidden units to see what features they are capturing in 
+#  the data.
