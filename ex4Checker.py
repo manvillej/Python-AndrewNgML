@@ -50,7 +50,7 @@ def checkNNGradients(lambdaVal):
 		print("{}: {:.9f}, {:.9f} {:.9f}".format(i+1, numGrad[i], grad[i], abs(numGrad[i] - grad[i])))
 	
 
-	print('The above two columns you get should be very similar.')
+	print('The above left two columns you get should be very similar.')
 	print('(Left-Your Numerical Gradient, Right-Analytical Gradient)')
 
 	# Evaluate the norm of the difference between two solutions.  
