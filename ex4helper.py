@@ -14,14 +14,14 @@ def nnCostFunction(nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lambd
 	#prepare Y matrix for cost function
 	Y = getYMatrix(y)
 
-	X = np.insert(X,0,np.ones(X.shape[0]),axis=1) # adding bias unit
-	h1 = sigmoid(np.matmul(X,theta1.transpose()))
-	h1 = np.insert(h1,0,np.ones(h1.shape[0]),axis=1) # adding bias unit
-	h2 = sigmoid(np.matmul(h1,theta2.transpose()))
+	#forward Pass
+	[a1, z1, a2, z2, h2] = forwardPass(np.array([theta1, theta2]), X)
+
 
 	#getting regulation parameters
 	R1 = theta1[:,1:]
 	R2 = theta2[:,1:]
+
 	# calculating the cost of regulation
 	costRegulation = lambdaVal*(np.sum(np.square(R1.flatten())) + np.sum(np.square(R2.flatten())))/(2*m)
 	
@@ -37,9 +37,9 @@ def nnCostFunction(nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lambd
 def BackPropagation(nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal):
 	#get num examples
 	m = X.shape[0]
-
 	#get Theta Matrices
 	[theta1, theta2] = getThetas(nnParams,inputSize,hiddenLayerSize,outputSize)
+
 
 	#prepare Y matrix for cost function
 	Y = getYMatrix(y) #5x3
@@ -48,7 +48,6 @@ def BackPropagation(nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lamb
 	[a1, z1, a2, z2, h2] = forwardPass(np.array([theta1, theta2]), X)
 	#a1 = 5x4, z1 = 5x5, a2 = 5x5, a2 = 5x6, z2 = 5x3, h2 = 5x3
 
-
 	#backward
 	theta2Error = h2-Y #5x3
 	theta1Error = np.matmul(theta2Error,theta2[:,1:])*sigmoidGradient(z1)
@@ -56,9 +55,6 @@ def BackPropagation(nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lamb
 	D1 = np.matmul(theta1Error.transpose(),a1)
 	D2 = np.matmul(theta2Error.transpose(),a2)
 
-	theta2delta = theta2Error * (h2*(1-h2))
-	theta2other = np.dot(a2.transpose(),theta2delta)
-	print(theta2other.flatten())
 	#average the gradient per example	
 	theta1Grad = D1/m
 	theta2Grad = D2/m
@@ -79,17 +75,19 @@ def forwardPass(nnParams, X):
 	theta1 = nnParams[0]
 	theta2 = nnParams[1]
 
+	#left side is the example count
 	#layer 1
-	a1 = np.insert(X,0,np.ones(X.shape[0]),axis=1)
-	z1 = np.matmul(a1,theta1.transpose())
-	a2 = sigmoid(z1)
+	a1 = np.insert(X,0,np.ones(X.shape[0]),axis=1)#5x4
+	z1 = np.matmul(a1,theta1.transpose())#5x5
+	a2 = sigmoid(z1)#5x5
+
 
 	#layer 2
 	a2 = np.insert(a2,0,np.ones(a1.shape[0]),axis=1) # adding bias unit  5x6
 	z2 = np.matmul(a2,theta2.transpose()) #5x3
-	h2 = sigmoid(z2) #5x3
+	a3 = sigmoid(z2) #5x3
 
-	return [a1, z1, a2, z2, h2]
+	return [a1, z1, a2, z2, a3]
 
 def getYMatrix(y):
 	#prepare Y matrix for cost function
@@ -119,7 +117,6 @@ def sigmoidGradient(Z):
 	return R*(1-R)
 
 def sigmoid(Z):
-
 	return 1/(1+np.exp(-Z))
 
 def optimizeNN(nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal, maxIter):

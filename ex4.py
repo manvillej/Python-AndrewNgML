@@ -180,14 +180,14 @@ input('\nPart 8 completed. Program paused. Press enter to continue: ')
 
 print('\nTraining Neural Network... ')
 
-MaxIter = 50
-lambdaVal = 1
+#MaxIter = 50
+#lambdaVal = 1
 	
-finalParams = helper.optimizeNN(initialNNParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal, MaxIter)
+#finalParams = helper.optimizeNN(initialNNParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal, MaxIter)
 
-print(finalParams)
+#print(finalParams)
 
-input('\nPart 9 completed. Program paused. Press enter to continue: ')
+#input('\nPart 9 completed. Program paused. Press enter to continue: ')
 
 ## ================= Part 10: Visualize Weights =================
 #  You can now "visualize" what the neural network is learning by 

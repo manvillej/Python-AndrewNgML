@@ -1,16 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.optimize as op
+import checker as op
 import ex4helper as helper
 import math
 import matplotlib.image as mpimg
 from numpy import linalg as LA
 
-def backPropMask(nnParams,*args):
-	return helper.BackPropagation(nnParams,*args)
-	
-def costMask(nnParams,*args):
-	return helper.nnCostFunction(nnParams,*args)
+
+def main():
+	checkNNGradients(0)
 
 def checkNNGradients(lambdaVal):
 	#   CHECKNNGRADIENTS(lambda) Creates a small neural network to check the
@@ -47,7 +45,7 @@ def checkNNGradients(lambdaVal):
 	print('\nComparing Gradients: (numGrad, grad, absolute difference)')
 
 	for i in range(0,numGrad.shape[0]):
-		print("{}: {:.9f}, {:.9f} {:.9f}".format(i+1, numGrad[i], grad[i], abs(numGrad[i] - grad[i] )))
+		print("{}: {:.9f}, {:.9f} {:.9f}".format(i+1, numGrad[i], grad[i], abs(numGrad[i] - grad[i])))
 	
 
 	print('The above two columns you get should be very similar.')
@@ -61,7 +59,6 @@ def checkNNGradients(lambdaVal):
 	print('the relative difference will be small (less than 1e-9).')
 	print('Relative Difference: {}'.format(diff))
 
-
 def debugInitializeWeights(fanOut, fanIn):
    	# Initialize W using "sin", this ensures that  vW is always of the same
 	# values and will be useful for debugging
@@ -74,6 +71,12 @@ def debugInitializeWeights(fanOut, fanIn):
 	W = np.sin(W)/10
 	return W
 
+def backPropMask(nnParams,*args):
+	return helper.BackPropagation(nnParams,*args)
+	
+def costMask(nnParams,*args):
+	return helper.nnCostFunction(nnParams,*args)
+
 if __name__ == '__main__':
-	checkNNGradients(0)
+	main()
 
