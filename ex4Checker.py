@@ -34,8 +34,10 @@ def checkNNGradients(lambdaVal):
 	#unroll parameters
 	nnParams = np.append(theta1.flatten(), theta2.flatten())
 
+	#calculate gradient with backprop
 	grad = helper.BackPropagation(nnParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal)
 
+	#calculate difference between backprop and numerical gradient
 	diff = op.check_grad(costMask, backPropMask, nnParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal, epsilon=.0001)
 	
 	numGrad = op.approx_fprime(nnParams, costMask, .001 , inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal)
