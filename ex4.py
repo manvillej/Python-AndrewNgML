@@ -164,7 +164,7 @@ checker.checkNNGradients(lambdaVal)
 
 debug_J  = helper.nnCostFunction(nnParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal)
 
-print('Cost at parameters (loaded from ex4weights): {:.6f}'.format(debug_J))
+print('\nCost at parameters (loaded from ex4weights): {:.6f}'.format(debug_J))
 print('this value should be approx: 0.576051')
 
 input('\nPart 8 completed. Program paused. Press enter to continue: ')
@@ -180,14 +180,15 @@ input('\nPart 8 completed. Program paused. Press enter to continue: ')
 
 print('\nTraining Neural Network... ')
 
-#MaxIter = 50
-#lambdaVal = 1
+MaxIter = 5000
+lambdaVal = 1
+#learningRate = .5
 	
 #finalParams = helper.optimizeNN(initialNNParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal, MaxIter)
-
+#nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal, maxIter)
 #print(finalParams)
 
-#input('\nPart 9 completed. Program paused. Press enter to continue: ')
+input('\nPart 9 completed. Program paused. Press enter to continue: ')
 
 ## ================= Part 10: Visualize Weights =================
 #  You can now "visualize" what the neural network is learning by 

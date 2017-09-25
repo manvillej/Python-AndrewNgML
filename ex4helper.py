@@ -89,6 +89,22 @@ def forwardPass(nnParams, X):
 
 	return [a1, z1, a2, z2, a3]
 
+def predictNN(nnParams, X):
+	results = forwardPass(nnParams, X)
+	pred = results[results.shape[0]]
+	return(np.argmax(pred,axis=1)+1)
+
+def nnAccuracy(nnParams, X, inputLayerSize, hiddenLayerSize, numLabels, y):
+
+	thetas = getThetas(nnParams, inputLayerSize, hiddenLayerSize, numLabels)
+	
+	p = predictNN(thetas, X)
+
+	predictions = np.zeros(p.shape)
+	predictions[np.where(p==y)] = 1
+
+	return np.mean(predictions) * 100
+
 def getYMatrix(y):
 	#prepare Y matrix for cost function
 	numLabels = np.unique(y).shape[0]
@@ -120,4 +136,4 @@ def sigmoid(Z):
 	return 1/(1+np.exp(-Z))
 
 def optimizeNN(nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal, maxIter):
-	return op.minimize(fun=nnCostFunction, x0=nnParams, args=(inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal), method='TNC', jac = BackPropagation, options={'maxiter': maxIter, 'disp': True})
+	return op.minimize(fun=nnCostFunction, x0=nnParams, args=(inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal), method='', jac = BackPropagation, options={'maxiter': maxIter, 'disp': True})

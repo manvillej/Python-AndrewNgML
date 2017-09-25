@@ -9,6 +9,7 @@ from numpy import linalg as LA
 
 def main():
 	checkNNGradients(0)
+	#checkNNGradients(1)
 
 def checkNNGradients(lambdaVal):
 	#   CHECKNNGRADIENTS(lambda) Creates a small neural network to check the
@@ -60,6 +61,7 @@ def checkNNGradients(lambdaVal):
 	print('If your backpropagation implementation is correct, then ')
 	print('the relative difference will be small (less than 1e-9).')
 	print('Relative Difference: {}'.format(diff))
+
 
 def debugInitializeWeights(fanOut, fanIn):
    	# Initialize W using "sin", this ensures that  vW is always of the same
