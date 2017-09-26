@@ -7,9 +7,9 @@
 #  linear exercise. You will need to complete the following functions 
 #  in this exericse:
 #
-#     sigmoidGradient.m
-#     randInitializeWeights.m
-#     nnCostFunction.m
+#     sigmoidGradient complete
+#     randInitializeWeights complete
+#     nnCostFunction complete
 #
 #  For this exercise, you will not need to change any code in this file,
 #  or any other files other than those mentioned above.
