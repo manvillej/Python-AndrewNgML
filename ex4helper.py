@@ -26,7 +26,8 @@ def nnCostFunction(nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lambd
 	costRegulation = lambdaVal*(np.sum(np.square(R1.flatten())) + np.sum(np.square(R2.flatten())))/(2*m)
 	
 	#calculating true cost without regulation
-	cost = np.sum(np.log(h2)*Y) + np.sum(np.log(1-h2)*(1-Y))
+	cost = np.sum(np.log(np.extract(Y==1,h2))) + np.sum(np.log(1-np.extract(Y==0,h2)))
+
 	cost = -cost/m
 
 	#calculate total cost
@@ -91,7 +92,7 @@ def forwardPass(nnParams, X):
 
 def predictNN(nnParams, X):
 	results = forwardPass(nnParams, X)
-	pred = results[results.shape[0]]
+	pred = results[4]
 	return(np.argmax(pred,axis=1)+1)
 
 def nnAccuracy(nnParams, X, inputLayerSize, hiddenLayerSize, numLabels, y):
@@ -136,4 +137,4 @@ def sigmoid(Z):
 	return 1/(1+np.exp(-Z))
 
 def optimizeNN(nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal, maxIter):
-	return op.minimize(fun=nnCostFunction, x0=nnParams, args=(inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal), method='', jac = BackPropagation, options={'maxiter': maxIter, 'disp': True})
+	return op.minimize(fun=nnCostFunction, x0=nnParams, args=(inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal), method='TNC', jac = BackPropagation, options={'maxiter': maxIter, 'disp': True})

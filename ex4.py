@@ -182,11 +182,11 @@ print('\nTraining Neural Network... ')
 
 MaxIter = 5000
 lambdaVal = 1
-#learningRate = .5
-	
-#finalParams = helper.optimizeNN(initialNNParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal, MaxIter)
-#nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal, maxIter)
-#print(finalParams)
+
+accuracy = helper.nnAccuracy(initialNNParams, X, inputLayerSize, hiddenLayerSize, numLabels, y)
+print(accuracy)
+
+results = helper.optimizeNN(initialNNParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal, MaxIter)
 
 input('\nPart 9 completed. Program paused. Press enter to continue: ')
 
@@ -194,3 +194,19 @@ input('\nPart 9 completed. Program paused. Press enter to continue: ')
 #  You can now "visualize" what the neural network is learning by 
 #  displaying the hidden units to see what features they are capturing in 
 #  the data.
+
+print('\nVisualizing Neural Network... ')
+
+
+## ================= Part 11: Implement Predict =================
+#  After training the neural network, we would like to use it to predict
+#  the labels. You will now implement the "predict" function to use the
+#  neural network to predict the labels of the training set. This lets
+#  you compute the training set accuracy.
+
+
+finalParams = results.x
+
+accuracy = helper.nnAccuracy(finalParams, X, inputLayerSize, hiddenLayerSize, numLabels, y)
+
+print('Training Set Accuracy: {:.2f}#'.format(accuracy))
