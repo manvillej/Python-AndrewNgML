@@ -183,10 +183,9 @@ print('\nTraining Neural Network... ')
 MaxIter = 5000
 lambdaVal = 1
 
-accuracy = helper.nnAccuracy(initialNNParams, X, inputLayerSize, hiddenLayerSize, numLabels, y)
-print(accuracy)
-
 results = helper.optimizeNN(initialNNParams, inputLayerSize, hiddenLayerSize, numLabels, X, y, lambdaVal, MaxIter)
+
+finalThetaParams = results.x
 
 input('\nPart 9 completed. Program paused. Press enter to continue: ')
 
@@ -196,7 +195,11 @@ input('\nPart 9 completed. Program paused. Press enter to continue: ')
 #  the data.
 
 print('\nVisualizing Neural Network... ')
+finalTheta1 = finalThetaParams[:theta1.size]
+finalTheta1.shape = theta1.shape
+helper3.displayData(finalTheta1[:,1:])
 
+input('\nPart 10 completed. Program paused. Press enter to continue: ')
 
 ## ================= Part 11: Implement Predict =================
 #  After training the neural network, we would like to use it to predict
@@ -204,9 +207,8 @@ print('\nVisualizing Neural Network... ')
 #  neural network to predict the labels of the training set. This lets
 #  you compute the training set accuracy.
 
+accuracy = helper.nnAccuracy(finalThetaParams, X, inputLayerSize, hiddenLayerSize, numLabels, y)
 
-finalParams = results.x
+print('Training Set Accuracy: {:.2f}%'.format(accuracy))
 
-accuracy = helper.nnAccuracy(finalParams, X, inputLayerSize, hiddenLayerSize, numLabels, y)
-
-print('Training Set Accuracy: {:.2f}#'.format(accuracy))
+input('\nPart 11 completed. Program complete. Press enter to exit: ')
