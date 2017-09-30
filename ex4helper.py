@@ -137,4 +137,4 @@ def sigmoid(Z):
 	return 1/(1+np.exp(-Z))
 
 def optimizeNN(nnParams, inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal, maxIter):
-	return op.minimize(fun=nnCostFunction, x0=nnParams, args=(inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal), method='TNC', jac = BackPropagation, options={'maxiter': maxIter, 'disp': True})
+	return op.minimize(fun=nnCostFunction, x0=nnParams, args=(inputSize, hiddenLayerSize, outputSize, X, y, lambdaVal), method='TNC', jac=BackPropagation, options={'maxiter': maxIter, 'disp': True})
