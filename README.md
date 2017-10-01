@@ -4,7 +4,7 @@ Python implementation of Andrew Ng's ML course projects
  - Ex2 (Logistic Regression & Regulation) = Complete
  - Ex3 (MultiClass LR and Neural Network Prediction) = Complete
  - Ex4 (Multilayer Neural Network) = Complete
- - Ex5 = Incomplete
+ - Ex5 (Variance vs Bias using Linear Regression) = Complete
  - Ex6 = Incomplete
  - Ex7 = Incomplete
  - Ex8 = Incomplete
