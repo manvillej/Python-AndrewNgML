@@ -57,9 +57,6 @@ input('\nPart 1 completed. Program paused. Press enter to continue: ')
 #  regression. 
 #
 theta = np.array([1, 1])
-X = np.insert(X,0,np.ones(X.shape[0]),axis=0)
-Xval = np.insert(Xval,0,np.ones(Xval.shape[0]),axis=0)
-Xtest = np.insert(Xtest,0,np.ones(Xtest.shape[0]),axis=0)
 
 lambdaVal = 1
 
@@ -98,10 +95,10 @@ results = helper.trainLinearRegressionModel(theta, X, y, lambdaVal)
 theta = results.x
 
 # Plot training data
-plt.scatter(X[1,:], y, marker='o', color='b', s=10)
+plt.scatter(X, y, marker='o', color='b', s=10)
 plt.xlabel('Change in water level (x)')
 plt.ylabel('Water flowing out of the dam (y)')
-plt.plot(X[1,:],helper.linearRegressionPredict(X, theta), color='red', linestyle='solid')
+plt.plot(X[0,:],helper.linearRegressionPredict(X, theta, addBias=True), color='red', linestyle='solid')
 plt.show()
 
 input('\nPart 4 completed. Program paused. Press enter to continue: ')
@@ -115,8 +112,8 @@ input('\nPart 4 completed. Program paused. Press enter to continue: ')
 
 [errorTrain, errorValidation] = helper.learningCurve(X,y,Xval,yval,lambdaVal)
 
-trainingError = plt.plot(range(m),errorTrain,  label = "Training Error", color='blue', linestyle='solid')
-crossValidationError = plt.plot(range(m), errorValidation, label = "Cross Validation Error", color='red', linestyle='solid')
+plt.plot(range(m),errorTrain,  label = "Training Error", color='blue', linestyle='solid')
+plt.plot(range(m), errorValidation, label = "Cross Validation Error", color='red', linestyle='solid')
 plt.legend(loc='upper right')
 plt.xlabel('Number of training examples')
 plt.ylabel('Error')
@@ -126,7 +123,7 @@ plt.show()
 print('\n# of Training Examples: Train Error, Cross Validation Error')
 print('--------------------------------------------------------')
 for i in range(m):
-	print('{:2d}: {:.3f}, {:.3f}'.format(i+1,errorTrain[i],errorValidation[i]))
+	print('{:02d}: {:06.3f}, {:07.3f}'.format(i+1,errorTrain[i],errorValidation[i]))
 
 input('\nPart 5 completed. Program paused. Press enter to continue: ')
 
@@ -134,3 +131,89 @@ input('\nPart 5 completed. Program paused. Press enter to continue: ')
 #  One solution to this is to use polynomial regression. You should now
 #  complete polyFeatures to map each example into its powers
 #
+
+p = 8
+
+# Map X onto Polynomial Features and Normalize
+Xpoly = helper.polyFeatures(X,p)
+Xpoly = helper.featureNormalize(Xpoly)
+
+# Map X onto Polynomial Features and Normalize
+XpolyVal = helper.polyFeatures(Xval,p)
+XpolyVal = helper.featureNormalize(XpolyVal)
+
+# Map X onto Polynomial Features and Normalize
+XpolyTest = helper.polyFeatures(Xtest,p)
+XpolyTest = helper.featureNormalize(XpolyTest)
+
+print('Normalized Training Example 1:');
+print(Xpoly[:, 0]);
+
+
+input('\nPart 6 completed. Program paused. Press enter to continue: ')
+
+## =========== Part 7: Learning Curve for Polynomial Regression =============
+#  Now, you will get to experiment with polynomial regression with multiple
+#  values of lambda. The code below runs polynomial regression with 
+#  lambda = 0. You should try running the code with different values of
+#  lambda to see how the fit and learning curve change.
+#
+
+theta = np.ones(Xpoly.shape[0]+1)
+test = helper.linearRegressionGradient(theta, Xpoly, y, lambdaVal)
+#results = helper.trainLinearRegressionModel(theta, Xpoly, y, lambdaVal)
+#theta = results.x
+
+plt.figure(1)
+plt.scatter(X, y, marker='o', color='b', s=10)
+plt.xlabel('Change in water level (x)')
+plt.ylabel('Water flowing out of the dam (y)')
+plt.title('Polynomial Regression Fit (lambda = {})'.format(lambdaVal))
+helper.plotFit(X.min(), X.max(), X, theta, p)
+
+plt.figure(2)
+[errorTrain, errorValidation] = helper.learningCurve(Xpoly,y,XpolyVal,yval,lambdaVal)
+
+plt.plot(range(m),errorTrain,  label = "Training Error", color='blue', linestyle='solid')
+plt.plot(range(m), errorValidation, label = "Cross Validation Error", color='red', linestyle='solid')
+plt.legend(loc='upper right')
+plt.xlabel('Number of training examples')
+plt.ylabel('Error')
+plt.title('Polynomial Regression Learning Curve (lambda = {})'.format(lambdaVal))
+
+print('\n# of Training Examples: Train Error, Cross Validation Error')
+print('--------------------------------------------------------')
+for i in range(m):
+	print('{:02d}: {:06.3f}, {:07.3f}'.format(i+1,errorTrain[i],errorValidation[i]))
+
+plt.show()
+
+input('\nPart 7 completed. Program paused. Press enter to continue: ')
+
+
+ #  You will now implement validationCurve to test various values of 
+#  lambda on a validation set. You will then use this to select the
+#  "best" lambda value.
+#
+
+lambdaVector = np.array([0, .001, .003, .01, .03, .1, .3, 1, 3, 10])
+
+[errorTrain, errorValidation] = helper.validationCurve(Xpoly,y,XpolyVal,yval,lambdaVector)
+print('\nRow #, Lambda: Train Error, Cross Validation Error')
+print('--------------------------------------------------------')
+for i in range(lambdaVector.size):
+	print('{:02d}. {:05.3f}: {:06.3f}, {:07.3f}'.format(i+1,lambdaVector[i],errorTrain[i],errorValidation[i]))
+
+
+position = np.arange(lambdaVector.size)
+barWidth = .25
+plt.bar(position - barWidth/2, errorTrain, barWidth,  label = "Training Error", color='blue')
+plt.bar(position + barWidth/2, errorValidation, barWidth, label = "Cross Validation Error", color='red')
+plt.xticks(position,lambdaVector)
+plt.legend(loc='upper left')
+plt.xlabel('Lambda')
+plt.ylabel('Error')
+plt.title('Polynomial Regression Validation Curve')
+plt.show()
+
+input('\nPart 8 completed. Program completed. Press enter to exit: ')
