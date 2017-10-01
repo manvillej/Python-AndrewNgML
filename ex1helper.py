@@ -1,4 +1,6 @@
 import numpy as np
+from numpy.linalg import inv
+
 def computeCost(x,y,theta):
 	
 	j = 1/2*np.mean(np.power(np.matmul(x.transpose(),theta)-y,2))
@@ -16,8 +18,6 @@ def gradientDescent(x, y, theta, alpha, iterations):
 		
 		theta = theta - alpha*gradient/m
 		costHistory[i]= computeCost(x,y,theta)
-
-
 
 	return [theta, costHistory]
 
@@ -45,9 +45,10 @@ def gradientDescentMulti(x, y, theta, alpha, num_iters):
 		error = np.matmul(x,theta)-y
 		theta = theta - alpha*np.dot(error,x)/m
 		j_history[i] = computeCostMulti(x,y,theta)
+		
 	return [theta, j_history]
 
-from numpy.linalg import inv
+
 def normalEqn(X,Y):
 	X= np.matmul(inv(np.matmul(X.transpose(),X)),X.transpose())
 	theta = np.matmul(X,Y)
