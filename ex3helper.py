@@ -1,9 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.optimize as op
 import ex2helper as helper
 import math
-import matplotlib.image as mpimg
 
 def OneVsAll(X, y, numlabels, lambdaVal):
 	m = X.shape[0] #number of examples

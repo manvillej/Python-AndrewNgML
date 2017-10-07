@@ -112,7 +112,6 @@ def plotFit(minX, maxX, X, theta, p):
 
 	projection = linearRegressionPredict(valueMapPoly,theta,addBias=True)
 
-
 	plt.plot(valueMap[0,:],projection,  label = "Regression Line", color='red', linestyle='--')
 	
 def validationCurve(X,y,Xval,yval,lambdaVector):
