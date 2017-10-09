@@ -7,9 +7,9 @@
 #  This file contains code that helps you get started on the
 #  exercise. You will need to complete the following functions:
 #
-#     pca.m
-#     projectData.m
-#     recoverData.m
+#     pca.m - completed
+#     projectData.m - completed
+#     recoverData.m - completed
 #     computeCentroids.m - completed
 #     findClosestCentroids.m - completed
 #     kMeansInitCentroids.m - completed
@@ -18,10 +18,8 @@
 #  or any other files other than those mentioned above.
 #
 ## Imports
-## ================= Part 1: Find Closest Centroids ====================
-#  To help you implement K-Means, we have divided the learning algorithm 
-#  into two functions -- findClosestCentroids and computeCentroids. In this
-#  part, you should complete the code in the findClosestCentroids function. 
+## ================== Part 1: Load Example Dataset  ===================
+#  We start this exercise by using a small dataset that is easily to
+#  visualize
 #
-
-print('Finding closest centroids.')
+print('Visualizing example dataset for PCA.\n')
