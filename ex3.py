@@ -48,6 +48,7 @@ sel = X[perm[0:100],:]
 
 #display data as image
 helper.displayData(sel)
+plt.show()
  
 input('\nPart 1 completed. Program paused. Press enter to continue: ')
 

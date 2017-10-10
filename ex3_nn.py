@@ -50,6 +50,7 @@ sel = X[perm[0:100],:]
 
 #display data as image
 helper.displayData(sel)
+plt.show()
 
 
 input('\nPart 1 completed. Program paused. Press enter to continue: ')
@@ -88,6 +89,7 @@ for i in range(0,m):
 	example = example[np.newaxis,:]
 
 	helper.displayData(example)
+	plt.show()
 	p = helper.predict(theta1, theta2, example)
 	print('    Neural Network Prediction: {}'.format(p[0]%10))
 	print('    Correct Answer: {}\n'.format(y[perm[i]]%10))

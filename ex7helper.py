@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import ex3helper as helper3
 
 def findClosestCentroid(X, centroids):
 	#FINDCLOSESTCENTROIDS computes the centroid memberships for every example
@@ -50,3 +51,51 @@ def computeCentroids(X, idx, k):
 		centroids[i,:]= np.mean(X[idx==i,:],axis=0)
 
 	return centroids
+
+def featureNormalize(X):
+	mean = np.mean(X,axis=0)
+	std = np.std(X,axis=0)
+	return (X-mean)/std
+
+def PCA(Xnorm):
+	m = Xnorm.shape[0]
+	sigma = np.matmul(Xnorm.T, Xnorm,)/m
+	return np.linalg.svd(sigma, full_matrices=True)
+
+def drawLines(p1, p2, color):
+	#DRAWLINE Draws a line from point p1 to point p2
+	#   DRAWLINE(p1, p2) Draws a line from point p1 to point p2 and holds the
+	#   current figure
+	plt.plot([p1[0],p2[0]],[p1[1],p2[1]], color=color)
+
+def projectData(X, U, K):
+	#PROJECTDATA Computes the reduced data representation when projecting only 
+	#on to the top k eigenvectors
+	#   Z = projectData(X, U, K) computes the projection of 
+	#   the normalized inputs X into the reduced dimensional space spanned by
+	#   the first K columns of U. It returns the projected examples in Z.
+	#
+
+	Z = np.zeros((X.shape[0],K))
+	Ureduce = U[:,:K]
+
+	Z = np.matmul(X,Ureduce)
+
+	return Z
+
+def recoverData(Z, U, K):
+	#RECOVERDATA Recovers an approximation of the original data when using the 
+	#projected data
+	#   X_rec = RECOVERDATA(Z, U, K) recovers an approximation the 
+	#   original data that has been reduced to K dimensions. It returns the
+	#   approximate reconstruction in X_rec.
+
+	Xrec = np.zeros((Z.shape[0],U.shape[0]))
+
+	Ureduce = U[:,:K]
+	Xrecovered = np.matmul(Z,Ureduce.T)
+
+	return Xrecovered
+
+def displayData(X,**kwargs):
+	helper3.displayData(X, **kwargs)
