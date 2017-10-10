@@ -101,7 +101,6 @@ def displayData(X, **keywordParameters):
 	#show image
 	imgplot = plt.imshow(displayArray, cmap='gray')
 	plt.axis('off')
-	plt.show()
 
 def predict(theta1, theta2, X):
 	m = X.shape[0]

@@ -46,6 +46,7 @@ perm = np.random.permutation(m)
 sel = X[perm[0:100],:]
 
 helper3.displayData(sel)
+plt.show()
 
 input('\nPart 1 completed. Program paused. Press enter to continue: ')
 
@@ -198,6 +199,7 @@ print('\nVisualizing Neural Network... ')
 finalTheta1 = finalThetaParams[:theta1.size]
 finalTheta1.shape = theta1.shape
 helper3.displayData(finalTheta1[:,1:])
+plt.show()
 
 input('\nPart 10 completed. Program paused. Press enter to continue: ')
 
