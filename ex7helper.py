@@ -99,3 +99,5 @@ def recoverData(Z, U, K):
 
 def displayData(X,**kwargs):
 	helper3.displayData(X, **kwargs)
+
+
