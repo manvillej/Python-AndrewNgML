@@ -34,7 +34,7 @@ print('Visualizing example dataset for outlier detection.\n')
 
 #  The following command loads the dataset. You should now have the
 #  variables X, Xval, yval in your environment
-mat = io.loadmat('./data/ex8data1.mat');
+mat = io.loadmat('./data/ex8data1.mat')
 X = mat['X']
 
 #  Visualize the example dataset
@@ -64,9 +64,77 @@ variance = np.var(X, axis=0)
 #  of X
 P = multivariate_normal.pdf(X, mean=mean, cov=variance)
 
+#  Visualize the fit
 helper.visualizeFit(X, mean, variance)
+plt.scatter(X[:,0], X[:,1], marker='x', color='b', s=5)
 plt.xlabel('Latency (ms)')
 plt.ylabel('Throughput (mb/s)')
 plt.show()
 
 input('Part 2 completed. Program paused. Press enter to continue: ')
+
+## ================== Part 3: Find Outliers ===================
+#  Now you will find a good epsilon threshold using a cross-validation set
+#  probabilities given the estimated Gaussian distribution
+print('Visualize outliers...\n')
+
+Xval = mat['Xval']
+yval = mat['yval'].flatten()
+pval = multivariate_normal.pdf(Xval, mean=mean, cov=variance)
+
+F1, epsilon = helper.selectThreshold(yval, pval)
+
+print('Best epsilon found using cross-validation: {:.2e}'.format(epsilon))
+print('Best F1 on Cross Validation Set:  {:.6f}'.format(F1))
+print('    (you should see a value epsilon of about 8.99e-05)')
+print('    (you should see a Best F1 value of  0.875000)')
+
+#  Find the outliers in the training set and plot the
+outliers = X[P<epsilon,:]
+
+#  Draw a red circle around those outliers
+helper.visualizeFit(X, mean, variance)
+plt.scatter(X[:,0], X[:,1], marker='x', color='b', s=5)
+plt.scatter(outliers[:,0], outliers[:,1], s=80, facecolors='none', edgecolors='r')
+plt.xlabel('Latency (ms)')
+plt.ylabel('Throughput (mb/s)')
+plt.show()
+
+input('\nPart 3 completed. Program paused. Press enter to continue: ')
+
+
+## ================== Part 4: Multidimensional Outliers ===================
+#  We will now use the code from the previous part and apply it to a 
+#  harder problem in which more features describe each datapoint and only 
+#  some features indicate whether a point is an outlier.
+print('Testing with Multidimensional Outliers...\n')
+#  Loads the second dataset. You should now have the
+#  variables X, Xval, yval in your environment
+mat = io.loadmat('./data/ex8data2.mat')
+X = mat['X']
+Xval = mat['Xval']
+yval = mat['yval'].flatten()
+
+#  Apply the same steps to the larger dataset
+mean = np.mean(X, axis=0)
+variance = np.var(X, axis=0)
+
+#  Training set
+P = multivariate_normal.pdf(X, mean=mean, cov=variance)
+
+#  Cross-validation set
+pval = multivariate_normal.pdf(Xval, mean=mean, cov=variance)
+
+#  Find the best threshold
+F1, epsilon = helper.selectThreshold(yval, pval)
+
+
+outliers = (P < epsilon).astype(np.int)
+print('Best epsilon found using cross-validation: {:.2e}'.format(epsilon))
+print('Best F1 on Cross Validation Set:  {:.6f}'.format(F1))
+print('    (you should see a value epsilon of about 1.38e-18)')
+print('    (you should see a Best F1 value of  0.615385)')
+print('Total number of Outliers found = {}'.format(np.sum(outliers)))
+
+
+input('\nPart 4 completed. Program completed. Press enter to exit: ')
