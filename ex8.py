@@ -17,6 +17,9 @@
 #Imports:
 import scipy.io as io
 import matplotlib.pyplot as plt
+import numpy as np
+from scipy.stats import multivariate_normal
+import ex8helper as helper
 
 ## ================== Part 1: Load Example Dataset  ===================
 #  We start this exercise by using a small dataset that is easy to
@@ -53,3 +56,17 @@ input('Part 1 completed. Program paused. Press enter to continue: ')
 #
 
 print('Visualizing Gaussian fit...\n')
+mean = np.mean(X, axis=0)
+variance = np.var(X, axis=0)
+
+
+#  Returns the density of the multivariate normal at each data point (row) 
+#  of X
+P = multivariate_normal.pdf(X, mean=mean, cov=variance)
+
+helper.visualizeFit(X, mean, variance)
+plt.xlabel('Latency (ms)')
+plt.ylabel('Throughput (mb/s)')
+plt.show()
+
+input('Part 2 completed. Program paused. Press enter to continue: ')
