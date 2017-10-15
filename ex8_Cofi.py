@@ -86,3 +86,23 @@ print('(this value should be about 22.22)')
 
 
 input('\nPart 2 completed. Program paused. Press enter to continue: ')
+
+## ============== Part 3: Collaborative Filtering Gradient ==============
+#  Once your cost function matches up with ours, you should now implement 
+#  the collaborative filtering gradient function. Specifically, you should 
+#  complete the code in cofiCostFunc.m to return the grad argument.
+#  
+print('Checking Gradients (without regularization) ... \n')
+
+#  Check gradients by running checkNNGradients
+helper.checkCostFunction()
+
+input('\nPart 3 completed. Program paused. Press enter to continue: ')
+
+## ========= Part 4: Collaborative Filtering Cost Regularization ========
+#  Now, you should implement regularization for the cost function for 
+#  collaborative filtering. You can implement it by adding the cost of
+#  regularization to the original cost computation.
+#  
+
+#  Evaluate cost function

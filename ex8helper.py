@@ -2,6 +2,7 @@ import numpy as np
 from scipy.stats import multivariate_normal
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+import checker as op
 
 def visualizeFit(X, mean, variance):
 	#VISUALIZEFIT Visualize the dataset and its estimated distribution.
@@ -185,3 +186,58 @@ def cofiGradFunction(params, Y, R, numUsers, numMovies, numFeatures, lambdaVal):
 	grad = np.append(XGrad.flatten(), ThetaGrad.flatten())
 
 	return grad
+
+def checkCostFunction(lambdaVal=0):
+	#CHECKCOSTFUNCTION Creates a collaborative filering problem 
+	#to check your cost function and gradients
+	#   CHECKCOSTFUNCTION(lambda) Creates a collaborative filering problem 
+	#   to check your cost function and gradients, it will output the 
+	#   analytical gradients produced by your code and the numerical gradients 
+	#   (computed using computeNumericalGradient). These two gradient 
+	#   computations should result in very similar values.
+
+	## Create small problem
+	X_t = np.random.rand(4, 3)
+	Theta_t = np.random.rand(5, 3)
+
+	# Zap out most entries
+	Y = X_t.dot(Theta_t.T)
+	logical = np.random.random_sample(Y.shape)
+	test =.5*np.ones(Y.shape)
+	Y[logical > test] = 0
+	R = np.zeros(Y.shape)
+	R[Y==0] = 1
+
+	#  Run Gradient Checking
+	X = np.random.standard_normal(X_t.shape)
+	Theta = np.random.standard_normal(Theta_t.shape)
+	numUsers = Y.shape[1]
+	numMovies = Y.shape[0]
+	numFeatures = Theta_t.shape[1]
+
+
+	#  get Parameters
+	params = np.append(X.flatten(), Theta.flatten())
+
+
+	numGrad = op.approx_fprime(params, cofiCostFunction, .001, Y, R, numUsers, numMovies, numFeatures, lambdaVal)
+	cost = cofiCostFunction(params, Y, R, numUsers, numMovies, numFeatures, lambdaVal)
+	grad = cofiGradFunction(params, Y, R, numUsers, numMovies, numFeatures, lambdaVal)
+
+	print('\nComparing Gradients: (numGrad, grad, absolute difference)')
+
+	for i in range(0,numGrad.shape[0]):
+		print("{}: {:.9f}, {:.9f} {:.9f}".format(i+1, numGrad[i], grad[i], abs(numGrad[i] - grad[i])))
+	
+
+	print('The above two columns you get should be very similar.')
+	print('(Left-Your Numerical Gradient, Right-Analytical Gradient)')
+
+	#calculate difference between backprop and numerical gradient
+	diff = op.check_grad(cofiCostFunction,cofiGradFunction, params, Y, R, numUsers, numMovies, numFeatures, lambdaVal, epsilon=.0001)
+	print('If your cost function implementation is correct, then ')
+	print('the relative difference will be small (less than 1e-9).')
+	print('Relative Difference: {}'.format(diff))
+
+
+
