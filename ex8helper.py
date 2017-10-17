@@ -3,6 +3,7 @@ from scipy.stats import multivariate_normal
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import checker as op
+import re
 
 def visualizeFit(X, mean, variance):
 	#VISUALIZEFIT Visualize the dataset and its estimated distribution.
@@ -239,5 +240,46 @@ def checkCostFunction(lambdaVal=0):
 	print('the relative difference will be small (less than 1e-9).')
 	print('Relative Difference: {}'.format(diff))
 
+def loadMovieList():
+	file = open('./data/movie_ids.txt')
+	lines = file.readlines()
+	file.close()
+
+	idRegex = re.compile(r'^(\d+)')
+	dictionary = {}
+	for line in lines:
+		#get the id number
+		idx = idRegex.search(line).group()
+		
+		#remove id number
+		title = re.sub(r'^(\d+)\s','',line)
+		
+		#remove publish year at the end of the line
+		title = re.sub(r'(\s\(\d{4}\))','',title)
+
+		#remove \n
+		title = re.sub(r'\n','',title)
+
+		#add to dictionary (key:title, value:idx)
+		dictionary[title] = int(idx) - 1
+
+	return dictionary
+
+def normalizeRatings(Y, R):
+	#NORMALIZERATINGS Preprocess data by subtracting mean rating for every 
+	#movie (every row)
+	#   [Ynorm, Ymean] = NORMALIZERATINGS(Y, R) normalized Y so that each movie
+	#   has a rating of 0 on average, and returns the mean rating in Ymean.
+	#
+
+	[m, n] = Y.shape
+	Ymean = np.zeros(m)
+	Ynorm = np.zeros(Y.shape)
+	for i in range(m):
+		idx = R[i,:]==1
+		Ymean[i] = np.mean(Y[i,idx])
+		Ynorm[i,idx] = Y[i,idx] - Ymean[i]
+
+	return [Ymean, Ynorm]
 
 
