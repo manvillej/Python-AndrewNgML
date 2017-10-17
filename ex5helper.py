@@ -105,8 +105,8 @@ def plotFit(minX, maxX, X, theta, p):
 	valueMapPoly = polyFeatures(valueMap, p)
 
 	#calculating mean and standard deviation for normalizing valueMap
-	mean = Xpoly.mean(axis=1)
-	sigma = np.std(Xpoly,axis=1)
+	mean = valueMapPoly.mean(axis=1)
+	sigma = np.std(valueMapPoly,axis=1)
 
 	valueMapPoly = featureNormalize(valueMapPoly,mean=mean,sigma=sigma)
 
