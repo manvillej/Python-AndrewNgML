@@ -1,20 +1,18 @@
 """Machine Learning Online Class Exercise 1: Linear regression with multiple variables
-
 Instructions
 ------------
 This file contains code that helps you get started on the
 linear regression exercise.
 You will need to complete the following functions in this
 exericse:
-   warmUpExercise.py - complete
-   plotData.py - complete
-   gradientDescent.py - complete
-   computeCost.py - complete
-   gradientDescentMulti.py - complete
-   computeCostMulti.py - complete
-   featureNormalize.py - complete
-   normalEqn.py - complete
-
+   warmUpExercise - Complete
+   plotData - Complete
+   gradientDescent - Complete
+   computeCost - Complete
+   gradientDescentMulti - Complete
+   computeCostMulti - Complete
+   featureNormalize - Complete
+   normalEqn - Complete
 For this part of the exercise, you will need to change some
 parts of the code below for various experiments (e.g., changing
 learning rates).
@@ -85,8 +83,20 @@ def main():
 
     # Init Theta and Run Gradient Descent
     theta = np.zeros(3)
-    [theta, J_history] = helper.gradientDescentMulti(x, y, theta, alpha, num_iters)
-    plt.plot(range(0, num_iters), J_history, color='blue', linestyle='solid')
+
+    [theta, J_history] = helper.gradientDescentMulti(
+        x,
+        y,
+        theta,
+        alpha,
+        num_iters)
+
+    plt.plot(
+        range(0, num_iters),
+        J_history,
+        color='blue',
+        linestyle='solid')
+
     plt.xlabel('iterations')
     plt.ylabel('Cost J')
     plt.show()

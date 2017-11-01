@@ -1,24 +1,24 @@
 """ Machine Learning Online Class - Exercise 1: Linear Regression
-
 Instructions
 ------------
-This is the initialization file for exercise 1 of Andrew Ng's Machine learning course
-All of the file have been converted into a python implementation instead of the original
+This is the initialization file for exercise 1
+of Andrew Ng's Machine learning course. All of
+the file have been converted into a python
+implementation instead of the original.
 Matlab implementation.
-   warmUpExercise.py - complete
-   plotData.py - complete
-   gradientDescent.py - complete
-   computeCost.py - complete
-   gradientDescentMulti.py - complete
-   computeCostMulti.py - complete
-   featureNormalize.py - complete
-   normalEqn.py - complete
-
+   warmUpExercise - Complete
+   plotData - Complete
+   gradientDescent - Complete
+   computeCost - Complete
+   gradientDescentMulti - Complete
+   computeCostMulti - Complete
+   featureNormalize - Complete
+   normalEqn - Complete
 refers to the population size in 10,000s
 refers to the profit in $10,000s
 """
 
-# imports
+# Imports
 import numpy as np
 import ex1helper as helper
 from mpl_toolkits.mplot3d import Axes3D
@@ -28,9 +28,9 @@ import matplotlib
 
 
 def main():
+
     # ==================== Part 1: Basic Function ====================
     # Complete warmUpExercise.py
-
     print("running warmUpExercise...")
     print('5x5 Identity Matrix:')
 
@@ -86,8 +86,22 @@ def main():
     print('[-3.6303 1.1664]')
 
     # Plot the linear fit
-    plt.scatter(x[1], y, label="scatter", marker='x', color='r', s=10)
-    plt.plot(x[1], np.matmul(x.transpose(), theta), color='blue', linestyle='solid')
+    plt.scatter(
+        x[1],
+        y,
+        label="scatter",
+        marker='x',
+        color='r',
+        s=10)
+
+    plt.plot(
+        x[1],
+        np.matmul(
+            x.transpose(),
+            theta),
+        color='blue',
+        linestyle='solid')
+
     plt.xlabel('Population of City in 10,000s')
     plt.ylabel('Profit in $10,000s')
     plt.title('Raw Data + Linear Fit')
@@ -109,7 +123,11 @@ def main():
     theta0 = np.linspace(-10, 10, 100)
     theta1 = np.linspace(-1, 4, 100)
     theta0Vals, theta1Vals = np.meshgrid(theta0, theta1)
-    zs = np.array([helper.computeCost(x, y, [i, j]) for i, j in zip(np.ravel(theta0Vals), np.ravel(theta1Vals))])
+    zs = np.array(
+        [helper.computeCost(x, y, [i, j]) for i, j in zip(
+            np.ravel(theta0Vals),
+            np.ravel(theta1Vals))])
+
     ZCosts = zs.reshape(theta0Vals.shape)
 
     min = np.amin(ZCosts)
@@ -119,16 +137,37 @@ def main():
     fig = plt.figure(1)
     ax = fig.add_subplot(111, projection='3d')
 
-    ax.plot_surface(theta0Vals, theta1Vals, ZCosts, cmap=cm.coolwarm, norm=norm)
+    ax.plot_surface(
+        theta0Vals,
+        theta1Vals,
+        ZCosts,
+        cmap=cm.coolwarm,
+        norm=norm)
 
     ax.set_xlabel('theta0')
     ax.set_ylabel('theta1')
     ax.set_zlabel('Cost')
 
     plt.figure(2)
-    CS = plt.contour(theta0Vals, theta1Vals, ZCosts, np.logspace(-2, 3, 20))
-    plt.scatter(theta[0], theta[1], label="scatter", marker='x', color='r', s=10)
-    plt.clabel(CS, inline=1, fontsize=10)
+    CS = plt.contour(
+        theta0Vals,
+        theta1Vals,
+        ZCosts,
+        np.logspace(-2, 3, 20))
+
+    plt.scatter(
+        theta[0],
+        theta[1],
+        label="scatter",
+        marker='x',
+        color='r',
+        s=10)
+
+    plt.clabel(
+        CS,
+        inline=1,
+        fontsize=10)
+
     plt.title('Simplest default with labels')
     plt.show
 
