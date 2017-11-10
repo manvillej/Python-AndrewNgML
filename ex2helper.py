@@ -4,11 +4,22 @@ import scipy.optimize as op
 
 
 def plotData(X, Y):
-    # np.extract(Y==1,X[0]) returns an array of values in X where the value is 1 in the same location in Y
-    positiveExamples = plt.scatter(np.extract(Y == 1, X[:, 1]), np.extract(Y == 1, X[:, 2]), label="y=1", marker='o',
-                                   color='b', s=10)
-    negativeExamples = plt.scatter(np.extract(Y == 0, X[:, 1]), np.extract(Y == 0, X[:, 2]), label="y=0", marker='x',
-                                   color='r', s=10)
+    positiveExamples = plt.scatter(
+                    np.extract(Y == 1, X[:, 1]),
+                    np.extract(Y == 1, X[:, 2]),
+                    label="y=1",
+                    marker='o',
+                    color='b',
+                    s=10)
+
+    negativeExamples = plt.scatter(
+                    np.extract(Y == 0, X[:, 1]),
+                    np.extract(Y == 0, X[:, 2]),
+                    label="y=0",
+                    marker='x',
+                    color='r',
+                    s=10)
+
     plt.legend(handles=[positiveExamples, negativeExamples], loc='lower left')
 
 
@@ -31,7 +42,12 @@ def gradient(theta, x, y):
 
 
 def optimize(theta, x, y):
-    return op.minimize(fun=costFunction, x0=theta, args=(x, y), method='TNC', jac=gradient)
+    return op.minimize(
+                    fun=costFunction,
+                    x0=theta,
+                    args=(x, y),
+                    method='TNC',
+                    jac=gradient)
 
 
 def predict(theta, x):
@@ -83,7 +99,9 @@ def costFunctionReg(theta, x, y, lambdaVal):
         y = np.squeeze(y)
     m = x.shape[0]
     if (y.shape[0] != m):
-        raise ValueError('Y & X are not compatible: X.shape = {} &  y.shape = {}'.format(X.shape, y.shape))
+        raise ValueError('Y & X are not compatible: X.shape = {} &  y.shape = {}'.format(
+            X.shape,
+            y.shape))
 
     z = sigmoid(np.matmul(x, theta))
 
@@ -104,7 +122,9 @@ def gradientReg(theta, x, y, lambdaVal):
         y = np.squeeze(y)
     m = x.shape[0]
     if (y.shape[0] != m):
-        raise ValueError('Y & X are not compatible: X.shape = {} &  y.shape = {}'.format(X.shape, y.shape))
+        raise ValueError('Y & X are not compatible: X.shape = {} &  y.shape = {}'.format(
+            X.shape,
+            y.shape))
 
     z = sigmoid(np.matmul(x, theta))
 
@@ -118,4 +138,9 @@ def gradientReg(theta, x, y, lambdaVal):
 
 
 def optimizeReg(theta, x, y, lambdaVal):
-    return op.minimize(fun=costFunctionReg, x0=theta, args=(x, y, lambdaVal), method='TNC', jac=gradientReg)
+    return op.minimize(
+                    fun=costFunctionReg,
+                    x0=theta,
+                    args=(x, y, lambdaVal),
+                    method='TNC',
+                    jac=gradientReg)

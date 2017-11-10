@@ -1,23 +1,19 @@
-## Machine Learning Online Class
-#  Exercise 7 | Principle Component Analysis and K-Means Clustering
-#
-#  Instructions
-#  ------------
-#
-#  This file contains code that helps you get started on the
-#  exercise. You will need to complete the following functions:
-#
-#     pca.m - completed
-#     projectData.m - completed
-#     recoverData.m - completed
-#     computeCentroids.m - completed
-#     findClosestCentroids.m - completed
-#     kMeansInitCentroids.m - completed
-#
-#  For this exercise, you will not need to change any code in this file,
-#  or any other files other than those mentioned above.
-#
-## Imports
+""" Machine Learning Online Class Exercise 7 | Principle Component Analysis and K-Means Clustering
+Instructions
+------------
+This file contains code that helps you get started on the
+exercise. You will need to complete the following functions:
+   pca
+   projectData
+   recoverData
+   computeCentroids
+   findClosestCentroids
+   kMeansInitCentroids
+For this exercise, you will not need to change any code in this file,
+or any other files other than those mentioned above.
+"""
+
+# Imports
 import numpy as np
 import scipy.io as io
 import matplotlib.pyplot as plt
@@ -25,233 +21,284 @@ import ex7helper as helper
 from sklearn.cluster import KMeans
 from mpl_toolkits.mplot3d import Axes3D
 
-## ================== Part 1: Load Example Dataset  ===================
-#  We start this exercise by using a small dataset that is easily to
-#  visualize
-#
-print('\nVisualizing example dataset for PCA...\n')
 
-#  The following command loads the dataset. You should now have the 
-#  variable X in your environment
-mat = io.loadmat('./data/ex7data1.mat')
-X = mat['X']
+def main():
+    #  ================== Part 1: Load Example Dataset  ===================
+    #  We start this exercise by using a small dataset that is easily to
+    #  visualize
+    print('\nVisualizing example dataset for PCA...\n')
 
-plt.title('Raw Data')
-plt.scatter(X[:,0], X[:,1], marker='o', color='b', s=10)
-plt.show()
+    #  The following command loads the dataset. You should now have the
+    #  variable X in your environment
+    mat = io.loadmat('./data/ex7data1.mat')
+    X = mat['X']
 
-input('Part 1 completed. Program paused. Press enter to continue: ')
+    plt.title('Raw Data')
+    plt.scatter(
+        X[:, 0],
+        X[:, 1],
+        marker='o',
+        color='b',
+        s=10)
 
+    plt.show()
 
-## =============== Part 2: Principal Component Analysis ===============
-#  You should now implement PCA, a dimension reduction technique. You
-#  should complete the code in pca.m
-#
-print('Running PCA on example dataset...\n');
+    input('Part 1 completed. Program paused. Press enter to continue: ')
 
-#  Before running PCA, it is important to first normalize X
-Xnorm = helper.featureNormalize(X)
+    #  =============== Part 2: Principal Component Analysis ===============
+    #  You should now implement PCA, a dimension reduction technique. You
+    #  should complete the code in pca
+    print('Running PCA on example dataset...\n')
 
-#  Run PCA
-[U,S,V] = helper.PCA(Xnorm)
+    #  Before running PCA, it is important to first normalize X
+    Xnorm = helper.featureNormalize(X)
 
+    #  Run PCA
+    [U, S, V] = helper.PCA(Xnorm)
 
-#  Compute mu, the mean of the each feature
-mu = np.mean(X, axis=0)
+    #  Compute mu, the mean of the each feature
+    mu = np.mean(X, axis=0)
 
-#  Draw the eigenvectors centered at mean of data. These lines show the
-#  directions of maximum variations in the dataset.
-plt.title('Data plotted with PCA vectors')
-plt.scatter(X[:,0], X[:,1], marker='o', color='b', s=10)
-helper.drawLines(mu, mu + 1.5*S[0]*U[0,:], 'r')
-helper.drawLines(mu, mu + 1.5*S[1]*U[1,:], 'g')
-plt.show()
+    #  Draw the eigenvectors centered at mean of data. These lines show the
+    #  directions of maximum variations in the dataset.
+    plt.title('Data plotted with PCA vectors')
+    plt.scatter(
+        X[:, 0],
+        X[:, 1],
+        marker='o',
+        color='b',
+        s=10)
 
-print('Top eigenvector: ')
-print(U[0,:])
-print('(you should expect to see -0.707107 -0.707107)\n')
+    helper.drawLines(
+        mu,
+        mu + 1.5*S[0]*U[0, :],
+        'r')
 
-input('Part 2 completed. Program paused. Press enter to continue: ')
+    helper.drawLines(
+        mu,
+        mu + 1.5*S[1]*U[1, :],
+        'g')
 
-## =================== Part 3: Dimension Reduction ===================
-#  You should now implement the projection step to map the data onto the 
-#  first k eigenvectors. The code will then plot the data in this reduced 
-#  dimensional space.  This will show you what the data looks like when 
-#  using only the corresponding eigenvectors to reconstruct it.
+    plt.show()
 
-print('Dimension reduction on example dataset...\n')
+    print('Top eigenvector: ')
+    print(U[0, :])
+    print('(you should expect to see -0.707107 -0.707107)\n')
 
-#  Plot the normalized dataset (returned from pca)
+    input('Part 2 completed. Program paused. Press enter to continue: ')
 
-plt.scatter(Xnorm[:,0], Xnorm[:,1], marker='o', color='b', s=10)
-plt.axis([-4, 3, -4, 3]) #axis square
+    #  =================== Part 3: Dimension Reduction ===================
+    #  You should now implement the projection step to map the data onto the
+    #  first k eigenvectors. The code will then plot the data in this reduced
+    #  dimensional space.  This will show you what the data looks like when
+    #  using only the corresponding eigenvectors to reconstruct it.
 
-#  Project the data onto K = 1 dimension
-K = 1
-Z = helper.projectData(Xnorm, U, K)
+    print('Dimension reduction on example dataset...\n')
 
-print('Projection of the first example: {}'.format(Z[0]))
-print('(this value should be about 1.481274)\n')
+    #  Plot the normalized dataset (returned from pca)
+    plt.scatter(
+        Xnorm[:, 0],
+        Xnorm[:, 1],
+        marker='o',
+        color='b',
+        s=10)
 
-Xrecovered  = helper.recoverData(Z, U, K)
+    plt.axis([-4, 3, -4, 3])  # axis square
 
-print('Approximation of the first example: {:.6f} {:.6f}'.format(Xrecovered[0,0], Xrecovered[0,1]))
-print('(this value should be about  -1.047419 -1.047419)\n')
+    #  Project the data onto K = 1 dimension
+    K = 1
+    Z = helper.projectData(Xnorm, U, K)
 
-plt.title('Data plotted with PCA vectors')
-mappedX =1.5*np.array([np.max(Xrecovered[:,0]),np.min(Xrecovered[:,0])])
-mappedY =1.5*np.array([np.max(Xrecovered[:,1]),np.min(Xrecovered[:,1])])
+    print('Projection of the first example: {}'.format(Z[0]))
+    print('(this value should be about 1.481274)\n')
 
-plt.plot(mappedX,mappedY,color='g', linewidth=1)
+    Xrecovered = helper.recoverData(Z, U, K)
 
-for i in range(Xnorm.shape[0]):
-	helper.drawLines(Xnorm[i,:],Xrecovered[i,:],'k')
+    print('Approximation of the first example: {:.6f} {:.6f}'.format(
+        Xrecovered[0, 0],
+        Xrecovered[0, 1]))
 
-plt.show()
+    print('(this value should be about  -1.047419 -1.047419)\n')
 
-input('Part 3 completed. Program paused. Press enter to continue: ')
+    plt.title('Data plotted with PCA vectors')
+    mappedX = 1.5*np.array(
+        [np.max(
+            Xrecovered[:, 0]),
+            np.min(Xrecovered[:, 0])])
+    mappedY = 1.5*np.array(
+        [np.max(
+            Xrecovered[:, 1]),
+            np.min(Xrecovered[:, 1])])
 
-## =============== Part 4: Loading and Visualizing Face Data =============
-#  We start the exercise by first loading and visualizing the dataset.
-#  The following code will load the dataset into your environment
-#
-print('Loading face dataset.\n')
+    plt.plot(
+        mappedX,
+        mappedY,
+        color='g',
+        linewidth=1)
 
-mat = io.loadmat('./data/ex7faces.mat')
-X = mat['X']
+    for i in range(Xnorm.shape[0]):
+        helper.drawLines(
+            Xnorm[i, :],
+            Xrecovered[i, :],
+            'k')
 
-#  Display the first 100 faces in the dataset
+    plt.show()
 
-helper.displayData(X[:100,:])
-plt.show()
+    input('Part 3 completed. Program paused. Press enter to continue: ')
 
-input('Part 4 completed. Program paused. Press enter to continue: ')
+    #  =============== Part 4: Loading and Visualizing Face Data =============
+    #  We start the exercise by first loading and visualizing the dataset.
+    #  The following code will load the dataset into your environment
+    print('Loading face dataset.\n')
 
-## =========== Part 5: PCA on Face Data: Eigenfaces  ===================
-#  Run PCA and visualize the eigenvectors which are in this case eigenfaces
-#  We display the first 36 eigenfaces.
-print('Running PCA on face dataset. (this might take a minute or two ...)\n')
+    mat = io.loadmat('./data/ex7faces.mat')
+    X = mat['X']
 
-#  Before running PCA, it is important to first normalize X by subtracting 
-#  the mean value from each feature
+    #  Display the first 100 faces in the dataset
+    helper.displayData(X[:100, :])
+    plt.show()
 
-Xnorm = helper.featureNormalize(X)
+    input('Part 4 completed. Program paused. Press enter to continue: ')
 
-#  Run PCA
-[U,S,V] = helper.PCA(Xnorm)
+    #  =========== Part 5: PCA on Face Data: Eigenfaces  ===================
+    #  Run PCA and visualize the eigenvectors which are in this case eigenfaces
+    #  We display the first 36 eigenfaces.
+    print('Running PCA on face dataset. (this might take a minute or two ...)\n')
 
-#  Visualize the top 36 eigenvectors found
-helper.displayData(U[:,:36].T)
-plt.show()
+    #  Before running PCA, it is important to first normalize X by subtracting
+    #  the mean value from each feature
 
-input('Part 5 completed. Program paused. Press enter to continue: ')
+    Xnorm = helper.featureNormalize(X)
 
-## ============= Part 6: Dimension Reduction for Faces =================
-#  Project images to the eigen space using the top k eigenvectors 
-#  If you are applying a machine learning algorithm 
-print('Dimension reduction for face dataset...')
+    #  Run PCA
+    [U, S, V] = helper.PCA(Xnorm)
 
-K = 100
-Z = helper.projectData(Xnorm, U, K)
-print('The projected data Z has a size of: ', Z.shape)
+    #  Visualize the top 36 eigenvectors found
+    helper.displayData(U[:, :36].T)
+    plt.show()
 
-input('\nPart 6 completed. Program paused. Press enter to continue: ')
+    input('Part 5 completed. Program paused. Press enter to continue: ')
 
-## ==== Part 7: Visualization of Faces after PCA Dimension Reduction ====
-#  Project images to the eigen space using the top K eigen vectors and 
-#  visualize only using those K dimensions
-#  Compare to the original input, which is also displayed
-print('Visualizing the projected (reduced dimension) faces....\n')
+    #  ============= Part 6: Dimension Reduction for Faces =================
+    #  Project images to the eigen space using the top k eigenvectors
+    #  If you are applying a machine learning algorithm
+    print('Dimension reduction for face dataset...')
 
-Xrecovered  = helper.recoverData(Z, U, K)
+    K = 100
+    Z = helper.projectData(Xnorm, U, K)
+    print('The projected data Z has a size of: ', Z.shape)
 
-# Display normalized data
+    input('\nPart 6 completed. Program paused. Press enter to continue: ')
 
-# Charting
-plt.figure(2)
-plt.title('Original Data')
-helper.displayData(Xnorm[:100, :])
+    #  ==== Part 7: Visualization of Faces after PCA Dimension Reduction ====
+    #  Project images to the eigen space using the top K eigen vectors and
+    #  visualize only using those K dimensions
+    #  Compare to the original input, which is also displayed
+    print('Visualizing the projected (reduced dimension) faces....\n')
 
-plt.figure(1)
-plt.title('Recovered Data')
-helper.displayData(Xrecovered[:100, :])
+    Xrecovered = helper.recoverData(Z, U, K)
 
-# Display
-plt.show()
+    # Display normalized data
 
-input('Part 7 completed. Program paused. Press enter to continue: ')
+    # Charting
+    plt.figure(2)
+    plt.title('Original Data')
+    helper.displayData(Xnorm[:100, :])
 
-## === Part 8(a): Optional (ungraded) Exercise: PCA for Visualization ===
-#  One useful application of PCA is to use it to visualize high-dimensional
-#  data. In the last K-Means exercise you ran K-Means on 3-dimensional 
-#  pixel colors of an image. We first visualize this output in 3D, and then
-#  apply PCA to obtain a visualization in 2D.
-#  
-#  Reload the image from the previous exercise and run K-Means on it
-#  For this to work, you need to complete the K-Means assignment first
-print('Visualize groupings in 3d...')
+    plt.figure(1)
+    plt.title('Recovered Data')
+    helper.displayData(Xrecovered[:100, :])
 
-X = plt.imread('./data/bird_small.png')
-A = X/255 #divide by 255 to reduce values to a range of 0 - 1
+    # Display
+    plt.show()
 
-#image shape
-imgShape = A.shape
+    input('Part 7 completed. Program paused. Press enter to continue: ')
 
-# Reshape the image into an Nx3 matrix where N = number of pixels.
-# Each row will contain the Red, Green and Blue pixel values
-# This gives us our dataset matrix X that we will use K-Means on.
-newShape = [imgShape[0]*imgShape[1],imgShape[2]]
+    #  === Part 8(a): Optional (ungraded) Exercise: PCA for Visualization ===
+    #  One useful application of PCA is to use it to visualize high-dimensional
+    #  data. In the last K-Means exercise you ran K-Means on 3-dimensional
+    #  pixel colors of an image. We first visualize this output in 3D, and then
+    #  apply PCA to obtain a visualization in 2D.
+    #  Reload the image from the previous exercise and run K-Means on it
+    #  For this to work, you need to complete the K-Means assignment first
+    print('Visualize groupings in 3d...')
 
-A = np.reshape(A, newShape)
+    X = plt.imread('./data/bird_small.png')
+    A = X/255  # divide by 255 to reduce values to a range of 0 - 1
 
-# Run your K-Means algorithm on this data
-# You should try different values of K and max_iters here
-K = 16 
+    # image shape
+    imgShape = A.shape
 
-# Calculate Kmeans clusters
-kmeans = KMeans(n_clusters=K, random_state=0).fit(A)
-centroids = kmeans.cluster_centers_ 
-idx = kmeans.labels_
+    # Reshape the image into an Nx3 matrix where N = number of pixels.
+    # Each row will contain the Red, Green and Blue pixel values
+    # This gives us our dataset matrix X that we will use K-Means on.
+    newShape = [imgShape[0]*imgShape[1], imgShape[2]]
 
-#  Sample 1000 random indexes (since working with all the data is
-#  too expensive. If you have a fast computer, you may increase this.
-perm = np.random.permutation(A.shape[0])
-perm = perm[:1000]
+    A = np.reshape(A, newShape)
 
-#  Setup Color Palette
-#palette = hsv(K);
-#colors = palette(idx(sel), :);
-#  Visualize the data and centroid memberships in 3D
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(A[perm,0], A[perm,1], zs=A[perm,2], c=idx[perm],cmap=plt.get_cmap('hsv'))
-plt.title('Pixel dataset plotted in 3D. Color shows centroid memberships')
-ax.set_xlabel('X Label')
-ax.set_ylabel('Y Label')
-ax.set_zlabel('Z Label')
-plt.show()
+    # Run your K-Means algorithm on this data
+    # You should try different values of K and max_iters here
+    K = 16
 
-input('\nPart 8A completed. Program paused. Press enter to continue: ')
+    # Calculate Kmeans clusters
+    kmeans = KMeans(
+        n_clusters=K,
+        random_state=0).fit(A)
 
+    centroids = kmeans.cluster_centers_
+    idx = kmeans.labels_
 
-## === Part 8(b): Optional (ungraded) Exercise: PCA for Visualization ===
-# Use PCA to project this cloud to 2D for visualization
-print('Visualize groupings in 2d...')
+    #  Sample 1000 random indexes (since working with all the data is
+    #  too expensive. If you have a fast computer, you may increase this.
+    perm = np.random.permutation(A.shape[0])
+    perm = perm[:1000]
 
-# Subtract the mean to use PCA
+    #  Setup Color Palette
+    # palette = hsv(K);
+    # colors = palette(idx(sel), :);
+    #  Visualize the data and centroid memberships in 3D
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(
+        A[perm, 0],
+        A[perm, 1],
+        zs=A[perm, 2],
+        c=idx[perm],
+        cmap=plt.get_cmap('hsv'))
 
-Anorm = helper.featureNormalize(A)
+    plt.title('Pixel dataset plotted in 3D. Color shows centroid memberships')
+    ax.set_xlabel('X Label')
+    ax.set_ylabel('Y Label')
+    ax.set_zlabel('Z Label')
+    plt.show()
 
-# PCA and project the data to 2D
-#  Run PCA
-[U,S,V] = helper.PCA(Anorm)
-Z = helper.projectData(Anorm, U, K)
+    input('\nPart 8A completed. Program paused. Press enter to continue: ')
 
-# Plot in 2D
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.scatter(Z[perm,0],Z[perm,1],c=idx[perm],cmap=plt.get_cmap('hsv'))
-plt.title('Pixel dataset plotted in 2D, using PCA for dimensionality reduction')
-plt.show()
+    #  === Part 8(b): Optional (ungraded) Exercise: PCA for Visualization ===
+    # Use PCA to project this cloud to 2D for visualization
+    print('Visualize groupings in 2d...')
 
-input('\nPart 8b completed. Program completed. Press enter to exit: ')
+    # Subtract the mean to use PCA
+    Anorm = helper.featureNormalize(A)
+
+    #  PCA and project the data to 2D
+    #  Run PCA
+    [U, S, V] = helper.PCA(Anorm)
+    Z = helper.projectData(Anorm, U, K)
+
+    # Plot in 2D
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.scatter(
+        Z[perm, 0],
+        Z[perm, 1],
+        c=idx[perm],
+        cmap=plt.get_cmap('hsv'))
+
+    plt.title('Pixel dataset plotted in 2D, using PCA for dimensionality reduction')
+    plt.show()
+
+    input('\nPart 8b completed. Program completed. Press enter to exit: ')
+
+if __name__ == '__main__':
+    main()
